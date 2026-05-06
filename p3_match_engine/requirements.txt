@@ -1,0 +1,6 @@
+flask
+groq
+python-dotenv
+python-docx
+pdfplumber
+google-genai
