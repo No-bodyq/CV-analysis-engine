@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV Engine – Job Scraper</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #2a2a3a;
+      --accent: #7c6fcd;
+      --accent-bright: #a594f9;
+      --green: #4ade80;
+      --red: #f87171;
+      --amber: #fbbf24;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+    }
+
+    body {
+      width: 360px;
+      min-height: 420px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #13131a 0%, #1a1628 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,111,205,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .logo {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .header h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .badge {
+      margin-left: auto;
+      font-size: 9px;
+      font-family: 'DM Mono', monospace;
+      background: rgba(124,111,205,0.2);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124,111,205,0.4);
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+    .header p {
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 38px;
+    }
+
+    /* ── API Key Section ── */
+    .section {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .key-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .key-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .key-input:focus { border-color: var(--accent); }
+    .key-input::placeholder { color: var(--muted); }
+    .save-btn {
+      background: rgba(124,111,205,0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent-bright);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .save-btn:hover { background: rgba(124,111,205,0.35); }
+    .key-status {
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      margin-top: 5px;
+      height: 14px;
+    }
+    .key-status.ok { color: var(--green); }
+    .key-status.err { color: var(--red); }
+
+    /* ── Main Action ── */
+    .main-section {
+      padding: 16px 20px;
+    }
+    .scrape-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--accent) 0%, #9d8df0 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .scrape-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,111,205,0.4); }
+    .scrape-btn:active { transform: translateY(0); }
+    .scrape-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .scrape-btn .icon { font-size: 16px; }
+
+    /* ── Status & Results ── */
+    .status-bar {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+      align-items: center;
+      gap: 8px;
+    }
+    .status-bar.visible { display: flex; }
+    .spinner {
+      width: 12px; height: 12px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent-bright);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .result-card {
+      display: none;
+      margin-top: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .result-card.visible { display: block; }
+
+    .result-header {
+      padding: 10px 14px;
+      background: rgba(74,222,128,0.08);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .result-header .dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    .result-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .field-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .field-value {
+      font-size: 12px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .tag {
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .tag.skill {
+      background: rgba(124,111,205,0.12);
+      border-color: rgba(124,111,205,0.4);
+      color: var(--accent-bright);
+    }
+    .tag.qual {
+      background: rgba(251,191,36,0.08);
+      border-color: rgba(251,191,36,0.3);
+      color: var(--amber);
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .action-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+    .copy-btn {
+      background: rgba(124,111,205,0.15);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124,111,205,0.3);
+    }
+    .copy-btn:hover { background: rgba(124,111,205,0.3); }
+    .send-btn {
+      background: var(--green);
+      color: #0a0a0f;
+    }
+    .send-btn:hover { background: #6ee7a0; }
+
+    .error-card {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 8px;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: var(--red);
+    }
+    .error-card.visible { display: block; }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 10px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-text {
+      font-size: 9px;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+    .person-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: rgba(124,111,205,0.15);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124,111,205,0.3);
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">⚙</div>
+    <h1>CV Engine</h1>
+    <span class="badge">PERSON 5</span>
+  </div>
+  <p>Job listing scraper · Gemini-powered</p>
+</div>
+
+<!-- API Key -->
+<div class="section">
+  <div class="section-label">Gemini API Key</div>
+  <div class="key-row">
+    <input type="password" class="key-input" id="apiKeyInput" placeholder="AIza..." />
+    <button class="save-btn" id="saveKeyBtn">Save</button>
+  </div>
+  <div class="key-status" id="keyStatus"></div>
+</div>
+
+<!-- Main Action -->
+<div class="main-section">
+  <button class="scrape-btn" id="scrapeBtn">
+    <span class="icon">⚡</span>
+    Scrape This Job Page
+  </button>
+
+  <!-- Loading state -->
+  <div class="status-bar" id="statusBar">
+    <div class="spinner"></div>
+    <span id="statusText">Extracting page content...</span>
+  </div>
+
+  <!-- Result -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <div class="dot"></div>
+      Job data extracted
+    </div>
+    <div class="result-body">
+      <div>
+        <div class="field-label">Job Title</div>
+        <div class="field-value" id="rTitle">—</div>
+      </div>
+      <div>
+        <div class="field-label">Required Skills</div>
+        <div class="tags" id="rSkills"></div>
+      </div>
+      <div>
+        <div class="field-label">Qualifications</div>
+        <div class="tags" id="rQuals"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <button class="action-btn copy-btn" id="copyBtn">📋 Copy JSON</button>
+      <button class="action-btn send-btn" id="sendBtn">→ Send to App</button>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-card" id="errorCard"></div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <span class="footer-text">gemini-1.5-flash · v1.0</span>
+  <span class="person-badge">CV Engine Group</span>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
