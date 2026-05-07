@@ -89,9 +89,7 @@ def extract_cv_text(file, filename: str) -> str:
         )
 
 
-# ================================
 # TEST BLOCK (for manual testing)
-# ================================
 if __name__ == "__main__":
     import sys
 

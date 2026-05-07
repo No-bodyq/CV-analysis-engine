@@ -7,13 +7,12 @@ from matcher import compute_match
 
 
 def match_cv(cv_text, job_text):
-    """
-    Main orchestrator for CV-job matching system.
-    """
 
-    # -----------------------------
-    # Step 1: Validate Inputs
-    # -----------------------------
+    # Main orchestrator for CV-job matching system.
+    # Validates inputs, calls AI analysis, and returns structured result.
+
+
+    # Validate inputs
     if not cv_text or not cv_text.strip():
         return error_response("CV text cannot be empty")
 
@@ -23,27 +22,19 @@ def match_cv(cv_text, job_text):
     try:
         start_time = time.time()
 
-        # -----------------------------
-        # Step 2: AI Analysis
-        # -----------------------------
+        # Get AI analysis
         gemini_result = analyze_match(cv_text, job_text)
 
+        # Safety check
         if not isinstance(gemini_result, dict):
             gemini_result = {}
 
-        # -----------------------------
-        # Step 3: Post Processing
-        # -----------------------------
+        # Process and enrich result
         final_result = compute_match(gemini_result)
 
-        end_time = time.time()
+        # Add processing time
+        final_result["processing_time"] = round(time.time() - start_time, 2)
 
-        # Add performance metric
-        final_result["processing_time"] = round(end_time - start_time, 2)
-
-        # -----------------------------
-        # Step 4: Return Response
-        # -----------------------------
         return {
             "status": "success",
             "timestamp": datetime.datetime.now().isoformat(),
@@ -56,35 +47,9 @@ def match_cv(cv_text, job_text):
         return error_response("Internal processing error")
 
 
-# -----------------------------
-# Helper Function
-# -----------------------------
 def error_response(message):
+
     return {
         "status": "error",
         "message": message
     }
-
-
-# -----------------------------
-# TEST RUN
-# -----------------------------
-if __name__ == "__main__":
-
-    cv = """
-    Adaeze Okonkwo
-    Python Developer with 2 years experience.
-    Skills: Python, SQL, Data Analysis, Microsoft Excel, Power BI
-    Education: BSc Computer Science, University of Lagos
-    Experience: Data Analyst at Interswitch Nigeria (2022-2024)
-    """
-
-    job = """
-    Job Title: Data Analyst — Flutterwave Nigeria
-    Required Skills: Python, SQL, Tableau, Power BI, Machine Learning
-    Experience: 2+ years in data analysis
-    Education: BSc in Computer Science or related field
-    """
-
-    result = match_cv(cv, job)
-    print(result)

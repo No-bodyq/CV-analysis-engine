@@ -10,14 +10,14 @@ from werkzeug.utils import secure_filename
 from main import match_cv
 from cv_reader import extract_cv_text
 
-# -----------------------------
+
 # APP INIT
-# -----------------------------
+
 app = Flask(__name__)
 
-# -----------------------------
+
 # CONFIG
-# -----------------------------
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
@@ -30,9 +30,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 P5_FILE = os.path.join(BASE_DIR, "p5_job_data.json")
 P4_RESULTS_FILE = os.path.join(BASE_DIR, "..", "p4_dashboard", "match_results.json")
 
-# -----------------------------
+
 # HELPERS
-# -----------------------------
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -45,17 +44,13 @@ def too_large(e):
     }), 413
 
 
-# -----------------------------
 # ROUTE 1 — HOME
-# -----------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# -----------------------------
 # ROUTE 2 — MATCH ENGINE
-# -----------------------------
 @app.route("/match", methods=["POST"])
 def match():
     start_time = time.time()
@@ -102,7 +97,7 @@ def match():
             except:
                 pass
 
-        # -------- VALIDATION --------
+        # VALIDATION
         if not cv_text:
             return jsonify({
                 "status": "error",
@@ -115,7 +110,7 @@ def match():
                 "message": "Provide job description or use scraper"
             }), 400
 
-        # -------- RUN MATCH --------
+        # RUN MATCH
         result = match_cv(cv_text, job_text)
 
         processing_time = round(time.time() - start_time, 2)
@@ -126,7 +121,7 @@ def match():
             "processing_time": processing_time
         }
 
-        # -------- AUTO SAVE TO P4 --------
+        # AUTO SAVE TO P4
         try:
             os.makedirs(os.path.dirname(P4_RESULTS_FILE), exist_ok=True)
 
@@ -163,9 +158,8 @@ def match():
         }), 500
 
 
-# -----------------------------
+
 # ROUTE 3 — RECEIVE FROM P5
-# -----------------------------
 @app.route("/api/job-data", methods=["POST"])
 def receive_from_extension():
     try:
@@ -210,9 +204,7 @@ Qualifications:
         }), 500
 
 
-# -----------------------------
 # ROUTE 4 — GET P5 DATA
-# -----------------------------
 @app.route("/get-job-data", methods=["GET"])
 def get_job_data():
     try:
@@ -237,9 +229,7 @@ def get_job_data():
         }), 500
 
 
-# -----------------------------
 # ROUTE 5 — MANUAL SAVE (P4)
-# -----------------------------
 @app.route("/save-result", methods=["POST"])
 def save_result():
     try:
@@ -274,8 +264,6 @@ def save_result():
         }), 500
 
 
-# -----------------------------
 # RUN SERVER
-# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
