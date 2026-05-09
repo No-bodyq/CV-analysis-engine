@@ -56,15 +56,12 @@ def try_groq(prompt):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert Nigerian job market CV analyst. Always return valid JSON only."
+                    "content": "You are an expert Nigerian job market CV analyst. Always return valid JSON only.",
                 },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "user", "content": prompt},
             ],
             temperature=0.2,
-            max_tokens=2000
+            max_tokens=2000,
         )
 
         raw = response.choices[0].message.content
@@ -82,8 +79,7 @@ def try_gemini(prompt):
 
     try:
         response = gemini_client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
+            model="gemini-2.5-flash", contents=prompt
         )
 
         return parse_response(response.text)
@@ -148,12 +144,7 @@ def parse_response(text):
     # Parses API response text into a Python dictionary.
 
     try:
-        cleaned = (
-            text.strip()
-            .replace("```json", "")
-            .replace("```", "")
-            .strip()
-        )
+        cleaned = text.strip().replace("```json", "").replace("```", "").strip()
 
         # Try direct JSON parse
         return json.loads(cleaned)
@@ -179,34 +170,160 @@ def basic_analysis(cv_text, job_text):
 
     def extract_keywords(text):
         text = text.lower()
-        text = re.sub(r'[^\w\s]', ' ', text)
+        text = re.sub(r"[^\w\s]", " ", text)
         words = text.split()
 
         # Extended stopwords list
         stopwords = {
-            'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on',
-            'at', 'to', 'for', 'of', 'with', 'by', 'from', 'is',
-            'are', 'was', 'were', 'be', 'been', 'have', 'has',
-            'had', 'do', 'does', 'did', 'will', 'would', 'could',
-            'should', 'may', 'might', 'shall', 'can', 'need',
-            'this', 'that', 'these', 'those', 'it', 'its', 'as',
-            'we', 'our', 'you', 'your', 'they', 'their', 'he',
-            'she', 'his', 'her', 'who', 'which', 'what', 'when',
-            'where', 'how', 'why', 'all', 'any', 'both', 'each',
-            'more', 'most', 'other', 'some', 'such', 'no', 'not',
-            'only', 'same', 'so', 'than', 'too', 'very', 'just',
-            'also', 'into', 'through', 'during', 'before', 'after',
-            'above', 'below', 'between', 'out', 'off', 'over',
-            'under', 'again', 'then', 'once', 'here', 'there',
-            'about', 'against', 'up', 'down', 'if', 'while',
-            'result', 'results', 'http', 'https', 'www', 'groq',
-            'gemini', 'api', 'post', 'get', 'save', 'load',
-            'true', 'false', 'none', 'null', 'trying', 'tried',
-            'succeeded', 'failed', 'error', 'match', 'matched',
-            'using', 'used', 'use', 'used', 'like', 'make',
-            'made', 'take', 'taken', 'work', 'working', 'worked',
-            'good', 'well', 'new', 'time', 'year', 'years',
-            'able', 'must', 'want', 'look', 'looking', 'based'
+            "a",
+            "an",
+            "the",
+            "and",
+            "or",
+            "but",
+            "in",
+            "on",
+            "at",
+            "to",
+            "for",
+            "of",
+            "with",
+            "by",
+            "from",
+            "is",
+            "are",
+            "was",
+            "were",
+            "be",
+            "been",
+            "have",
+            "has",
+            "had",
+            "do",
+            "does",
+            "did",
+            "will",
+            "would",
+            "could",
+            "should",
+            "may",
+            "might",
+            "shall",
+            "can",
+            "need",
+            "this",
+            "that",
+            "these",
+            "those",
+            "it",
+            "its",
+            "as",
+            "we",
+            "our",
+            "you",
+            "your",
+            "they",
+            "their",
+            "he",
+            "she",
+            "his",
+            "her",
+            "who",
+            "which",
+            "what",
+            "when",
+            "where",
+            "how",
+            "why",
+            "all",
+            "any",
+            "both",
+            "each",
+            "more",
+            "most",
+            "other",
+            "some",
+            "such",
+            "no",
+            "not",
+            "only",
+            "same",
+            "so",
+            "than",
+            "too",
+            "very",
+            "just",
+            "also",
+            "into",
+            "through",
+            "during",
+            "before",
+            "after",
+            "above",
+            "below",
+            "between",
+            "out",
+            "off",
+            "over",
+            "under",
+            "again",
+            "then",
+            "once",
+            "here",
+            "there",
+            "about",
+            "against",
+            "up",
+            "down",
+            "if",
+            "while",
+            "result",
+            "results",
+            "http",
+            "https",
+            "www",
+            "groq",
+            "gemini",
+            "api",
+            "post",
+            "get",
+            "save",
+            "load",
+            "true",
+            "false",
+            "none",
+            "null",
+            "trying",
+            "tried",
+            "succeeded",
+            "failed",
+            "error",
+            "match",
+            "matched",
+            "using",
+            "used",
+            "use",
+            "used",
+            "like",
+            "make",
+            "made",
+            "take",
+            "taken",
+            "work",
+            "working",
+            "worked",
+            "good",
+            "well",
+            "new",
+            "time",
+            "year",
+            "years",
+            "able",
+            "must",
+            "want",
+            "look",
+            "looking",
+            "based",
         }
 
         # Only keep meaningful words longer than 3 characters
@@ -236,7 +353,9 @@ def basic_analysis(cv_text, job_text):
     word_count = len(cv_text.split())
     if word_count < 200:
         cv_verdict = "Too Short"
-        cv_recommendation = "Your CV is too short. Add more detail about your experience and skills"
+        cv_recommendation = (
+            "Your CV is too short. Add more detail about your experience and skills"
+        )
     elif word_count > 800:
         cv_verdict = "Too Long"
         cv_recommendation = "Your CV is too long. Try to keep it concise and relevant"
@@ -245,10 +364,14 @@ def basic_analysis(cv_text, job_text):
         cv_recommendation = "Your CV length is appropriate for your experience level"
 
     # Experience years detection
-    exp_pattern = re.search(r'(\d+)\+?\s*years?\s*(?:of\s*)?experience', job_text.lower())
+    exp_pattern = re.search(
+        r"(\d+)\+?\s*years?\s*(?:of\s*)?experience", job_text.lower()
+    )
     required_years = int(exp_pattern.group(1)) if exp_pattern else 0
 
-    cv_exp_pattern = re.search(r'(\d+)\+?\s*years?\s*(?:of\s*)?experience', cv_text.lower())
+    cv_exp_pattern = re.search(
+        r"(\d+)\+?\s*years?\s*(?:of\s*)?experience", cv_text.lower()
+    )
     candidate_years = int(cv_exp_pattern.group(1)) if cv_exp_pattern else 0
 
     gap = required_years - candidate_years
@@ -266,12 +389,12 @@ def basic_analysis(cv_text, job_text):
         "section_scores": {
             "skills": score,
             "experience": min(score + 10, 100),
-            "education": min(score + 5, 100)
+            "education": min(score + 5, 100),
         },
         "suggestions": [
             "Add more specific skills mentioned in the job description",
             "Quantify your achievements with numbers and metrics",
-            "Tailor your CV language to match the job description keywords"
+            "Tailor your CV language to match the job description keywords",
         ],
         "summary": f"Basic analysis completed — {len(matched)} keywords matched. Note: AI analysis unavailable, this is a rule-based result. Try again for full AI-powered analysis.",
         "keyword_frequency": {word: 1 for word in missing[:5]},
@@ -279,17 +402,104 @@ def basic_analysis(cv_text, job_text):
             "required_years": required_years,
             "candidate_years": candidate_years,
             "gap": gap,
-            "verdict": exp_verdict
+            "verdict": exp_verdict,
         },
         "cv_length": {
             "word_count": word_count,
             "verdict": cv_verdict,
-            "recommendation": cv_recommendation
+            "recommendation": cv_recommendation,
         },
         "seniority": {
             "job_level": "Unknown",
             "candidate_level": "Unknown",
             "match": False,
-            "verdict": "Seniority analysis unavailable — AI service temporarily down"
-        }
+            "verdict": "Seniority analysis unavailable — AI service temporarily down",
+        },
     }
+
+
+def analyze_job_description(job_text: str) -> dict | None:
+    """
+    Uses Gemini to extract structured fields from a raw job description.
+    Returns a dict or None if parsing fails.
+    """
+    prompt = f"""
+You are a job description parser.
+ 
+Extract the following fields from the job description below.
+Return ONLY valid JSON. No markdown, no backticks, no explanation.
+ 
+Required structure:
+{{
+  "job_title": "",
+  "company": "",
+  "location": "",
+  "employment_type": "",
+  "experience_years": 0,
+  "salary": "",
+  "source": ""
+}}
+ 
+Rules:
+- "job_title": the exact role being advertised
+- "company": the hiring organisation name (empty string if not found)
+- "location": city/country or "Remote" if stated
+- "employment_type": one of Full-time, Part-time, Contract, Freelance, Internship (infer if not explicit)
+- "experience_years": integer years required (0 if not stated)
+- "salary": stated salary or range as a string (empty string if not found)
+- "source": leave as empty string — the caller will fill this in
+ 
+JOB DESCRIPTION:
+{job_text}
+"""
+
+    # Try Gemini first
+    try:
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash", contents=prompt
+        )
+        result = _parse_json(response.text)
+        if result:
+            return result
+    except Exception as e:
+        print(f"Gemini analyze_job_description error: {e}")
+
+    # Fallback: try Groq if available
+    try:
+        from groq import Groq
+
+        groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a job description parser. Return only valid JSON.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.1,
+            max_tokens=500,
+        )
+        result = _parse_json(response.choices[0].message.content)
+        if result:
+            return result
+    except Exception as e:
+        print(f"Groq analyze_job_description error: {e}")
+
+    return None
+
+
+def _parse_json(text: str) -> dict | None:
+    """Strips markdown fences and parses JSON."""
+    try:
+        cleaned = text.strip().replace("```json", "").replace("```", "").strip()
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        try:
+            match = re.search(r"\{.*\}", cleaned, re.DOTALL)
+            if match:
+                return json.loads(match.group())
+        except Exception:
+            pass
+    return None

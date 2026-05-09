@@ -1,0 +1,18 @@
+application_id,company,job_title,source,applied_date,application_month,status,response_days,match_score,interview_rounds,follow_up_count,feedback,next_step,response_flag,offer_flag
+APP-001,Finmark Labs,Junior Data Analyst,LinkedIn,2026-01-04,2026-01,Interview,4,84,2,1,Requested a small case study and SQL practice.,Prepare SQL practice and review business metrics.,1,0
+APP-002,ByteBridge,Data Science Intern,Company site,2026-01-09,2026-01,Rejected,12,62,0,2,Needed stronger Python projects in the portfolio.,Build a portfolio project with Pandas and dashboards.,1,0
+APP-003,GreenPulse,Business Intelligence Analyst,Referral,2026-01-15,2026-01,Offer,3,91,3,1,"Strong Excel, Power BI and reporting examples.",Review offer and salary package.,1,1
+APP-004,CloudNest,Junior Data Engineer,LinkedIn,2026-01-20,2026-01,Shortlisted,6,78,1,1,Need more ETL examples and cloud basics.,Add a simple data pipeline project.,1,0
+APP-005,MarketMind,Research Analyst,Jobberman,2026-02-02,2026-02,No response,18,55,0,3,Follow up again after two weeks.,Send a polite reminder and update portfolio links.,0,0
+APP-006,Insight Loop,Product Analyst,LinkedIn,2026-02-11,2026-02,Interview,5,87,2,1,Good statistics background and communication.,Prepare product metrics examples.,1,0
+APP-007,TerraMetrics,Data Analyst,Company site,2026-02-18,2026-02,Rejected,9,68,1,1,Wanted stronger storytelling around insights.,Practice explaining charts in simple language.,1,0
+APP-008,NovaScale,ML Intern,Referral,2026-03-03,2026-03,Applied,0,73,0,0,Waiting for the first reply.,Follow up next week.,0,0
+APP-009,HealthFrame,Reporting Analyst,LinkedIn,2026-03-14,2026-03,Shortlisted,4,79,1,1,Portfolio matched the role well.,Schedule the interview.,1,0
+APP-010,DataSprout,Finance Analyst,Jobberman,2026-03-27,2026-03,Rejected,14,58,0,2,Needed more finance exposure and Excel depth.,Add a finance dashboard project.,1,0
+APP-011,BlueArc,Operations Analyst,Company site,2026-05-09,2026-05,Interview,7,82,2,1,Strong communication and reporting skills.,Send a thank-you note and revise case studies.,1,0
+APP-012,CivicLens,Public Policy Data Analyst,LinkedIn,2026-04-22,2026-04,Offer,2,89,3,1,Excellent dashboard sample and policy analysis.,Prepare onboarding and review the contract.,1,1
+APP-016,TestCo,Data Analyst,LinkedIn,2026-05-09,2026-05,Applied,0,70,0,0,Test feedback,Test next step,0,0
+APP-017,TestCo,Data Analyst,LinkedIn,2026-05-09,2026-05,Offer,0,70,0,0,Test feedback,Test next step,1,1
+APP-018,TechCore Solutions,BUSINESS INTELLIGENCE ANALYST – Data-Driven Insights,Match Engine,2026-05-09,2026-05,Applied,0,84,0,0,Applied via Match Engine — score 84%,,0,0
+APP-019,Hazbin,Data Analyst,Indeed,2026-05-09,2026-05,Applied,0,90,0,0,Waiting for response,,0,0
+APP-020,TechCore Solutions,BUSINESS INTELLIGENCE ANALYST – Data-Driven Insights,Match Engine,2026-05-09,2026-05,Applied,0,84,0,0,Applied via Match Engine — score 84% · Location: Remote · Type: Full-time · Experience required: 2 yrs · Salary: Competitive Salary + Benefits,,0,0

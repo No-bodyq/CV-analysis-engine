@@ -1,0 +1,25 @@
+# Environment
+.env
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Uploaded files
+uploads/
+
+# Temp files
+p5_job_data.json
+
+# CV files (sensitive)
+*.docx
+*.pdf
+
+# Test files
+test.py
+
+# IDE
+.idea/
+*.iml

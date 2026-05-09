@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        background: #f4f6f8;
+        color: #1a1a1a;
+        min-height: 100vh;
+      }
+
+      body.sidebar-collapsed .sidebar {
+        width: 54px;
+        height: 54px;
+        bottom: auto;
+        padding: 6px;
+        background: #ffffff;
+        border: 1px solid #bbf7d0;
+        border-radius: 12px;
+        box-shadow: 0 10px 24px rgba(22, 163, 74, 0.18);
+        overflow: hidden;
+      }
+
+      body.sidebar-collapsed .sidebar-brand,
+      body.sidebar-collapsed .sidebar-label,
+      body.sidebar-collapsed .nav-link small,
+      body.sidebar-collapsed .nav-link .nav-text,
+      body.sidebar-collapsed .sidebar-foot,
+      body.sidebar-collapsed .sidebar-section,
+      body.sidebar-collapsed .nav-link {
+        display: none;
+      }
+
+      .app-layout {
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 18px;
+        left: 14px;
+        bottom: 18px;
+        width: 236px;
+        background: #ffffff;
+        color: #14532d;
+        padding: 24px 16px;
+        border: 1px solid #bbf7d0;
+        border-radius: 18px;
+        box-shadow: 0 14px 38px rgba(22, 163, 74, 0.14);
+        overflow-y: auto;
+        transition:
+          width 0.2s ease,
+          padding 0.2s ease;
+        z-index: 20;
+      }
+
+      .sidebar-toggle {
+        width: 100%;
+        border: 1px solid #86efac;
+        background: #f0fdf4;
+        color: #166534;
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 12px;
+      }
+
+      body.sidebar-collapsed .sidebar-toggle {
+        margin: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 800;
+        background: #ffffff;
+        border: none;
+        color: #166534;
+      }
+
+      .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 22px;
+      }
+
+      .sidebar-brand .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #16a34a;
+        box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.15);
+      }
+
+      .sidebar-section {
+        margin-top: 20px;
+      }
+
+      .sidebar-label {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #65a30d;
+        margin-bottom: 10px;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        color: #166534;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 8px;
+        transition:
+          background 0.15s ease,
+          transform 0.15s ease;
+      }
+
+      .nav-link:hover {
+        background: #f0fdf4;
+        transform: translateX(2px);
+      }
+
+      .nav-link.active {
+        background: #dcfce7;
+        color: #14532d;
+        border: 1px solid #86efac;
+      }
+
+      .nav-link small {
+        color: #4d7c0f;
+        font-weight: 500;
+      }
+
+      .sidebar-foot {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 22px;
+        padding-top: 18px;
+        border-top: 1px solid #dcfce7;
+        color: #4d7c0f;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .page-content {
+        min-height: 100vh;
+      }
+
+      /* ── Header ── */
+      header {
+        background: #ffffff;
+        padding: 20px 56px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .header-left h1 {
+        font-size: 20px;
+        color: #16a34a;
+        font-weight: 700;
+      }
+
+      .header-left p {
+        font-size: 12px;
+        color: #888;
+        margin-top: 2px;
+      }
+
+      .header-badge {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        color: #16a34a;
+        font-weight: 600;
+      }
+
+      /* ── Hero / intro ── */
+      .hero {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 44px 56px 40px;
+      }
+
+      .hero-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+      }
+
+      .hero-top {
+        display: flex;
+        gap: 24px;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #16a34a;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .hero h1 {
+        font-size: clamp(22px, 4vw, 32px);
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1.2;
+        margin-bottom: 10px;
+      }
+
+      .hero-copy {
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.65;
+        max-width: 680px;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .chip {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        color: #16a34a;
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .top-card {
+        min-width: 230px;
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-radius: 16px;
+        padding: 18px 20px;
+        flex-shrink: 0;
+      }
+
+      .top-card .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #15803d;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .top-card .value {
+        font-size: 22px;
+        font-weight: 700;
+        color: #14532d;
+      }
+
+      .top-card .hint {
+        margin-top: 5px;
+        font-size: 13px;
+        color: #16a34a;
+      }
+
+      /* ── Shell / container ── */
+      .shell {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 40px 24px 64px;
+      }
+
+      /* ── Summary cards strip ── */
+      .grid-summary {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      .summary-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .summary-card .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #6b7280;
+        font-weight: 600;
+      }
+
+      .summary-card .value {
+        font-size: 26px;
+        font-weight: 700;
+        color: #16a34a;
+        margin: 8px 0 5px;
+      }
+
+      .summary-card .note {
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* ── Section headings ── */
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin: 32px 0 18px;
+      }
+
+      .section-title h2 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      .section-title p {
+        color: #6b7280;
+        font-size: 13px;
+      }
+
+      /* ── Generic card / panel ── */
+      .card,
+      .panel {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 24px;
+      }
+
+      .card h3,
+      .panel h3 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 14px;
+      }
+
+      /* ── Dashboard 2-col grid ── */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      /* ── Chart img ── */
+      .chart {
+        width: 100%;
+        border-radius: 12px;
+        display: block;
+        background: #f9fafb;
+      }
+
+      /* ── Stats row ── */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 30px;
+      }
+
+      .mini-panel {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .mini-panel .kicker {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #6b7280;
+        font-weight: 600;
+      }
+
+      .mini-panel .big {
+        font-size: 28px;
+        font-weight: 700;
+        color: #16a34a;
+        margin-top: 8px;
+      }
+
+      .footnote {
+        margin-top: 12px;
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* ── Analysis 2-col grid ── */
+      .analysis-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      /* ── Tables ── */
+      .table-wrap {
+        overflow-x: auto;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+      }
+
+      .table-wrap.scrollable {
+        overflow-y: auto;
+        max-height: 600px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        min-width: 680px;
+      }
+
+      th,
+      td {
+        padding: 11px 13px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+        font-size: 13px;
+        vertical-align: top;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        background: #f9fafb;
+        color: #6b7280;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+
+      /* ── Badges ── */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .badge.green {
+        background: #f0fdf4;
+        color: #15803d;
+        border: 1px solid #86efac;
+      }
+      .badge.blue {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+      }
+      .badge.orange {
+        background: #fff7ed;
+        color: #c2410c;
+        border: 1px solid #fed7aa;
+      }
+      .badge.red {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fca5a5;
+      }
+
+      /* ── Empty state ── */
+      .empty-state {
+        padding: 16px;
+        color: #6b7280;
+        border: 1px dashed #d1d5db;
+        border-radius: 12px;
+        background: #f9fafb;
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      /* ── Notes list ── */
+      .notes-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #374151;
+        line-height: 1.75;
+        font-size: 14px;
+      }
+
+      /* ── Feedback form ── */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .field label {
+        display: block;
+        margin-bottom: 5px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        padding: 10px 13px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        background: #f9fafb;
+        color: #1a1a1a;
+        font: inherit;
+        font-size: 13px;
+        outline: none;
+        transition:
+          border 0.2s,
+          background 0.2s;
+      }
+
+      .field textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        border-color: #16a34a;
+        background: #ffffff;
+      }
+
+      .form-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        font-size: 13px;
+      }
+
+      .form-status strong {
+        color: #14532d;
+      }
+
+      .link-button {
+        border: 0;
+        background: transparent;
+        color: #16a34a;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .inline-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .span-2 {
+        grid-column: span 2;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 10px;
+        padding: 11px 18px;
+        font-weight: 600;
+        font: inherit;
+        font-size: 14px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn.primary {
+        background: #16a34a;
+        color: white;
+      }
+
+      .btn.primary:hover {
+        background: #15803d;
+      }
+
+      .btn.secondary {
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
+      }
+
+      .btn.secondary:hover {
+        border-color: #16a34a;
+        color: #16a34a;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 1100px) {
+        .grid-summary {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .analysis-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .sidebar {
+          top: 10px;
+          left: 8px;
+          bottom: 10px;
+          width: 220px;
+        }
+        body.sidebar-collapsed .sidebar {
+          width: 64px;
+        }
+        header {
+          padding: 14px 20px;
+        }
+        .hero {
+          padding: 24px 20px 20px;
+        }
+        .grid-summary {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stats-row {
+          grid-template-columns: 1fr;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .span-2 {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <button class="sidebar-toggle" id="sidebar-toggle" type="button">
+          Collapse
+        </button>
+        <div class="sidebar-section">
+          <div class="sidebar-label">Pages</div>
+          <a class="nav-link active" href="/"
+            ><span class="nav-text">Dashboard</span> <small>P4</small></a
+          >
+          <a class="nav-link" href="/match-engine"
+            ><span class="nav-text">Match Engine</span> <small>P3</small></a
+          >
+        </div>
+      </aside>
+
+      <div class="page-content">
+        <!-- ── Header ── -->
+        <header>
+          <div class="header-left">
+            <h1>Analytics Dashboard</h1>
+            <p>Job search analytics with a feedback loop</p>
+          </div>
+          <div class="header-badge">📊 Applications Tracked</div>
+        </header>
+
+        <!-- ── Hero ── -->
+        <section class="hero">
+          <div class="hero-inner">
+            <div class="hero-top">
+              <div>
+                <div class="eyebrow">P4 Analytics Dashboard</div>
+                <h1>Job search analytics with a feedback loop</h1>
+                <p class="hero-copy">
+                  Track the jobs you have applied for, review response patterns,
+                  and use data metrics such as shape, describe, and skewness to
+                  understand your application outcomes.
+                </p>
+                <div class="chip-row">
+                  <div class="chip">Applications tracked</div>
+                  <div class="chip">Success rate</div>
+                  <div class="chip">Feedback loop</div>
+                  <div class="chip">Python-generated charts</div>
+                </div>
+              </div>
+              <div class="top-card">
+                <div class="label">Current focus</div>
+                <div class="value">{{ dashboard.candidate.target_role }}</div>
+                <div class="hint">
+                  {{ dashboard.candidate.name }} · {{
+                  dashboard.candidate.location }}
+                </div>
+                <div class="hint">
+                  Skill focus: {{ dashboard.candidate.focus | join(', ') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Main shell ── -->
+        <main class="shell">
+          <!-- Summary cards -->
+          <section class="grid-summary">
+            {% for card in dashboard.summary_cards %}
+            <div class="summary-card">
+              <div class="label">{{ card.label }}</div>
+              <div class="value">{{ card.value }}</div>
+              <div class="note">{{ card.note }}</div>
+            </div>
+            {% endfor %}
+          </section>
+
+          <!-- Charts -->
+          <section>
+            <div class="section-title">
+              <div>
+                <h2>Charts</h2>
+                <p>Built in Python using the CSV-backed application metrics.</p>
+              </div>
+            </div>
+            <div class="dashboard-grid">
+              <div class="card">
+                <h3>Applications by status</h3>
+                <img
+                  class="chart"
+                  src="data:image/png;base64,{{ dashboard.charts.status_chart }}"
+                  alt="Applications by status chart"
+                />
+              </div>
+              <div class="card">
+                <h3>Applications over time</h3>
+                <img
+                  class="chart"
+                  src="data:image/png;base64,{{ dashboard.charts.timeline_chart }}"
+                  alt="Applications over time chart"
+                />
+              </div>
+              <div class="card">
+                <h3>Match score distribution</h3>
+                <img
+                  class="chart"
+                  src="data:image/png;base64,{{ dashboard.charts.score_chart }}"
+                  alt="Match score distribution chart"
+                />
+              </div>
+              <div class="card">
+                <h3>Skewness</h3>
+                <img
+                  class="chart"
+                  src="data:image/png;base64,{{ dashboard.charts.skewness_chart }}"
+                  alt="Skewness chart"
+                />
+              </div>
+              <div class="card">
+                <h3>Response time vs match score</h3>
+                <img
+                  class="chart"
+                  src="data:image/png;base64,{{ dashboard.charts.scatter_chart }}"
+                  alt="Scatter chart"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Mini stats -->
+          <section class="stats-row">
+            <div class="mini-panel">
+              <div class="kicker">Shape</div>
+              <div class="big">
+                {{ dashboard.shape.rows }} × {{ dashboard.shape.columns }}
+              </div>
+              <p class="footnote">Rows × columns in the current dataset.</p>
+            </div>
+            <div class="mini-panel">
+              <div class="kicker">Avg response days</div>
+              <div class="big">{{ dashboard.metrics.avg_response_days }}</div>
+              <p class="footnote">Useful for planning follow-up timing.</p>
+            </div>
+            <div class="mini-panel">
+              <div class="kicker">Success rate</div>
+              <div class="big">{{ dashboard.metrics.success_rate }}%</div>
+              <p class="footnote">Offers divided by total applications.</p>
+            </div>
+          </section>
+
+          <!-- Describe + insights -->
+          <section class="analysis-grid">
+            <div class="card">
+              <h3>Describe table</h3>
+              {% if dashboard.describe_rows %}
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      {% for key in dashboard.describe_rows[0].keys() %}
+                      <th>{{ key }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in dashboard.describe_rows %}
+                    <tr>
+                      {% for value in row.values() %}
+                      <td>{{ value }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <div class="empty-state">
+                No numeric data available for describe yet.
+              </div>
+              {% endif %}
+            </div>
+            <div class="card">
+              <h3>Quick insights</h3>
+              <ul class="notes-list">
+                {% for item in dashboard.insights %}
+                <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+
+          <!-- Recent applications + feedback form -->
+          <section class="analysis-grid">
+            <div class="card">
+              <h3>Recent applications</h3>
+              {% if dashboard.recent_applications %}
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Source</th>
+                      <th>Applied</th>
+                      <th>Match score</th>
+                      <th>Response days</th>
+                      <th>Feedback</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for app in dashboard.recent_applications %}
+                    <tr data-application="{{ app | tojson | forceescape }}">
+                      <td>{{ app.company }}</td>
+                      <td>{{ app.job_title }}</td>
+                      <td>
+                        <span
+                          class="badge {% if app.status == 'Offer' %}green{% elif app.status == 'Interview' %}blue{% elif app.status == 'Shortlisted' %}orange{% elif app.status == 'Rejected' %}red{% else %}blue{% endif %}"
+                          >{{ app.status }}</span
+                        >
+                      </td>
+                      <td>{{ app.source }}</td>
+                      <td>{{ app.applied_date }}</td>
+                      <td>{{ app.match_score }}</td>
+                      <td>{{ app.response_days }}</td>
+                      <td>{{ app.feedback }}</td>
+                      <td>
+                        <div class="inline-actions">
+                          <button
+                            class="link-button edit-application-btn"
+                            type="button"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            class="link-button delete-application-btn"
+                            type="button"
+                            style="color: #b91c1c"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <div class="empty-state">
+                No applications have been logged yet.
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Feedback form -->
+            <div class="card">
+              <h3>Feedback loop</h3>
+              <p
+                style="
+                  color: #6b7280;
+                  font-size: 13px;
+                  margin-top: -6px;
+                  margin-bottom: 16px;
+                  line-height: 1.6;
+                "
+              >
+                Add a new application outcome or a feedback note. The server
+                writes it to JSON and refreshes the CSV used by the charts.
+              </p>
+              <div class="form-status" id="form-status" hidden>
+                <div>
+                  <strong id="form-status-title">Editing application</strong>
+                  <span id="form-status-text"></span>
+                </div>
+                <button class="link-button" type="button" id="cancel-edit-btn">
+                  Cancel
+                </button>
+              </div>
+              <form id="feedback-form">
+                <input
+                  id="application_id"
+                  name="application_id"
+                  type="hidden"
+                />
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="company">Company</label>
+                    <input
+                      id="company"
+                      name="company"
+                      type="text"
+                      placeholder="e.g. Acme Analytics"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="job_title">Job title</label>
+                    <input
+                      id="job_title"
+                      name="job_title"
+                      type="text"
+                      placeholder="e.g. Data Analyst"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="source">Source</label>
+                    <input
+                      id="source"
+                      name="source"
+                      type="text"
+                      placeholder="LinkedIn, referral, company site"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                      <option>Applied</option>
+                      <option>No response</option>
+                      <option>Shortlisted</option>
+                      <option>Interview</option>
+                      <option>Offer</option>
+                      <option>Rejected</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="match_score">Match score</label>
+                    <input
+                      id="match_score"
+                      name="match_score"
+                      type="number"
+                      min="0"
+                      max="100"
+                      value="70"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="response_days">Response days</label>
+                    <input
+                      id="response_days"
+                      name="response_days"
+                      type="number"
+                      min="0"
+                      value="0"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="interview_rounds">Interview rounds</label>
+                    <input
+                      id="interview_rounds"
+                      name="interview_rounds"
+                      type="number"
+                      min="0"
+                      value="0"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="follow_up_count">Follow ups</label>
+                    <input
+                      id="follow_up_count"
+                      name="follow_up_count"
+                      type="number"
+                      min="0"
+                      value="0"
+                    />
+                  </div>
+                  <div class="field span-2">
+                    <label for="feedback">Feedback</label>
+                    <textarea
+                      id="feedback"
+                      name="feedback"
+                      placeholder="e.g. Need more SQL practice and a clearer portfolio story."
+                    ></textarea>
+                  </div>
+                  <div class="field span-2">
+                    <label for="next_step">Next step</label>
+                    <textarea
+                      id="next_step"
+                      name="next_step"
+                      placeholder="e.g. Add a dashboard project and send a follow-up email."
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button class="btn primary" type="submit" id="submit-btn">
+                    Save feedback
+                  </button>
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    id="reset-form-btn"
+                  >
+                    Clear form
+                  </button>
+                </div>
+              </form>
+              <p class="footnote">
+                Submissions are saved to JSON and reflected in chart data.
+              </p>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const sidebarToggle = document.getElementById("sidebar-toggle");
+
+      function syncSidebarToggleText() {
+        const isCollapsed =
+          document.body.classList.contains("sidebar-collapsed");
+        sidebarToggle.textContent = isCollapsed ? "☰" : "Collapse";
+        sidebarToggle.title = isCollapsed
+          ? "Expand navigation"
+          : "Collapse navigation";
+        sidebarToggle.setAttribute(
+          "aria-label",
+          isCollapsed ? "Expand navigation" : "Collapse navigation",
+        );
+      }
+
+      if (localStorage.getItem("sidebarCollapsed") === "1") {
+        document.body.classList.add("sidebar-collapsed");
+      }
+      syncSidebarToggleText();
+
+      // Handle table scrollability based on number of rows
+      function updateTableScrollability() {
+        const tableWraps = document.querySelectorAll(".table-wrap");
+        tableWraps.forEach((tableWrap) => {
+          const tbody = tableWrap.querySelector("tbody");
+          if (tbody) {
+            const rowCount = tbody.querySelectorAll("tr").length;
+            if (rowCount > 10) {
+              tableWrap.classList.add("scrollable");
+            } else {
+              tableWrap.classList.remove("scrollable");
+            }
+          }
+        });
+      }
+      updateTableScrollability();
+
+      sidebarToggle.addEventListener("click", () => {
+        document.body.classList.toggle("sidebar-collapsed");
+        localStorage.setItem(
+          "sidebarCollapsed",
+          document.body.classList.contains("sidebar-collapsed") ? "1" : "0",
+        );
+        syncSidebarToggleText();
+      });
+
+      const feedbackForm = document.getElementById("feedback-form");
+      const resetFormBtn = document.getElementById("reset-form-btn");
+      const cancelEditBtn = document.getElementById("cancel-edit-btn");
+      const submitBtn = document.getElementById("submit-btn");
+      const applicationIdInput = document.getElementById("application_id");
+      const formStatus = document.getElementById("form-status");
+      const formStatusText = document.getElementById("form-status-text");
+      const formStatusTitle = document.getElementById("form-status-title");
+
+      let editingApplicationId = "";
+
+      function clearEditMode(resetFields = false) {
+        editingApplicationId = "";
+        if (resetFields) {
+          feedbackForm.reset();
+          document.getElementById("status").value = "Applied";
+          document.getElementById("match_score").value = 70;
+        }
+        applicationIdInput.value = "";
+        formStatus.hidden = true;
+        formStatusText.textContent = "";
+        formStatusTitle.textContent = "Editing application";
+        submitBtn.textContent = "Save feedback";
+      }
+
+      function enterEditMode(application) {
+        editingApplicationId = application.application_id || "";
+        applicationIdInput.value = editingApplicationId;
+        document.getElementById("company").value = application.company || "";
+        document.getElementById("job_title").value =
+          application.job_title || "";
+        document.getElementById("source").value = application.source || "";
+        document.getElementById("status").value =
+          application.status || "Applied";
+        document.getElementById("match_score").value =
+          application.match_score ?? 0;
+        document.getElementById("response_days").value =
+          application.response_days ?? 0;
+        document.getElementById("interview_rounds").value =
+          application.interview_rounds ?? 0;
+        document.getElementById("follow_up_count").value =
+          application.follow_up_count ?? 0;
+        document.getElementById("feedback").value = application.feedback || "";
+        document.getElementById("next_step").value =
+          application.next_step || "";
+        formStatus.hidden = false;
+        formStatusTitle.textContent = "Editing application";
+        formStatusText.textContent = application.application_id
+          ? ` ${application.application_id} · ${application.company || ""}`
+          : "";
+        submitBtn.textContent = "Update application";
+      }
+
+      function buildDebugMessage(response, result, rawText) {
+        const parts = [
+          `HTTP ${response.status} ${response.statusText || ""}`.trim(),
+        ];
+
+        if (result && typeof result === "object") {
+          if (result.message) {
+            parts.push(`Message: ${result.message}`);
+          }
+          if (result.debug) {
+            parts.push(`Debug: ${JSON.stringify(result.debug)}`);
+          }
+          if (result.action) {
+            parts.push(`Action: ${result.action}`);
+          }
+        }
+
+        if (rawText && rawText.trim()) {
+          parts.push(`Response: ${rawText.trim().slice(0, 400)}`);
+        }
+
+        return parts.join("\n");
+      }
+
+      function shouldTreatAsSuccess(response, result) {
+        if (!response.ok) {
+          return false;
+        }
+
+        if (result && typeof result === "object" && result.status === "error") {
+          return false;
+        }
+
+        return true;
+      }
+
+      document.querySelectorAll(".edit-application-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const row = button.closest("tr");
+          if (!row) return;
+
+          try {
+            const application = JSON.parse(row.dataset.application || "{}");
+            enterEditMode(application);
+            window.scrollTo({
+              top: feedbackForm.offsetTop - 20,
+              behavior: "smooth",
+            });
+          } catch (error) {
+            alert(
+              `Could not load application for editing.\n\n${error.message}`,
+            );
+          }
+        });
+      });
+
+      document.querySelectorAll(".delete-application-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const row = button.closest("tr");
+          if (!row) return;
+
+          try {
+            const application = JSON.parse(row.dataset.application || "{}");
+            const applicationId = application.application_id;
+
+            if (!applicationId) {
+              alert(
+                "This application does not have an ID, so it cannot be deleted safely.",
+              );
+              return;
+            }
+
+            const confirmed = window.confirm(
+              `Delete ${application.company || "this application"} (${applicationId})?`,
+            );
+            if (!confirmed) {
+              return;
+            }
+
+            const response = await fetch(
+              `/api/applications/${encodeURIComponent(applicationId)}`,
+              {
+                method: "DELETE",
+              },
+            );
+
+            const rawText = await response.text();
+            let result = {};
+
+            try {
+              result = rawText ? JSON.parse(rawText) : {};
+            } catch (parseError) {
+              result = { message: rawText || parseError.message };
+            }
+
+            if (!shouldTreatAsSuccess(response, result)) {
+              alert(
+                `Could not delete application.\n\n${buildDebugMessage(response, result, rawText)}`,
+              );
+              return;
+            }
+
+            if (editingApplicationId === applicationId) {
+              clearEditMode();
+            }
+
+            window.location.reload();
+          } catch (error) {
+            alert(
+              `Could not delete application.\n\nNetwork or client error: ${error.message}`,
+            );
+          }
+        });
+      });
+
+      cancelEditBtn.addEventListener("click", () => clearEditMode(true));
+
+      resetFormBtn.addEventListener("click", () => {
+        clearEditMode(true);
+      });
+
+      feedbackForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          application_id: applicationIdInput.value.trim(),
+          company: document.getElementById("company").value.trim(),
+          job_title: document.getElementById("job_title").value.trim(),
+          source: document.getElementById("source").value.trim(),
+          status: document.getElementById("status").value,
+          match_score: Number(
+            document.getElementById("match_score").value || 0,
+          ),
+          response_days: Number(
+            document.getElementById("response_days").value || 0,
+          ),
+          interview_rounds: Number(
+            document.getElementById("interview_rounds").value || 0,
+          ),
+          follow_up_count: Number(
+            document.getElementById("follow_up_count").value || 0,
+          ),
+          feedback: document.getElementById("feedback").value.trim(),
+          next_step: document.getElementById("next_step").value.trim(),
+        };
+
+        try {
+          const response = await fetch("/api/feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const rawText = await response.text();
+          let result = {};
+
+          try {
+            result = rawText ? JSON.parse(rawText) : {};
+          } catch (parseError) {
+            result = { message: rawText || parseError.message };
+          }
+
+          if (!shouldTreatAsSuccess(response, result)) {
+            alert(
+              `Could not save feedback.\n\n${buildDebugMessage(response, result, rawText)}`,
+            );
+            return;
+          }
+
+          clearEditMode(true);
+          window.location.reload();
+        } catch (error) {
+          alert(
+            `Could not save feedback. Please try again.\n\nNetwork or client error: ${error.message}`,
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

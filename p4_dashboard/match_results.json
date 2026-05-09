@@ -1,0 +1,858 @@
+[
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:09:25.543194",
+    "data": {
+      "score": 92,
+      "final_score": 84,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "data visualization",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        },
+        {
+          "skill": "etl processes",
+          "priority": "low"
+        },
+        {
+          "skill": "data warehousing concepts",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.64,
+      "totals": {
+        "matched": 9,
+        "missing": 4
+      },
+      "section_scores": {
+        "skills": 95,
+        "experience": 90,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "No experience gap"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Seniority level matches the job requirements"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your skillset",
+        "Highlight experience with cloud platforms, such as Azure or AWS",
+        "Include more details about your experience with data warehousing concepts"
+      ],
+      "summary": "The candidate has a strong background in data analysis, visualization, and reporting, with experience in Python, SQL, and Excel. They have a proven track record of translating complex data into actionable insights for business stakeholders.",
+      "processing_time": 1.59
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "No experience gap"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Seniority level matches the job requirements"
+      }
+    },
+    "final_score": 84,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "data visualization",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      },
+      {
+        "priority": "low",
+        "skill": "etl processes"
+      },
+      {
+        "priority": "low",
+        "skill": "data warehousing concepts"
+      }
+    ],
+    "processing_time": 1.59,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 90,
+      "skills": 95
+    },
+    "skill_ratio": 0.64,
+    "suggestions": [
+      "Consider adding R skills to your skillset",
+      "Highlight experience with cloud platforms, such as Azure or AWS",
+      "Include more details about your experience with data warehousing concepts"
+    ],
+    "summary": "The candidate has a strong background in data analysis, visualization, and reporting, with experience in Python, SQL, and Excel. They have a proven track record of translating complex data into actionable insights for business stakeholders.",
+    "totals": {
+      "matched": 9,
+      "missing": 4
+    },
+    "timestamp": "2026-05-09T20:09:25.650565"
+  },
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:12:01.754299",
+    "data": {
+      "score": 92,
+      "final_score": 84,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "data visualization",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "etl processes",
+          "priority": "low"
+        },
+        {
+          "skill": "data warehousing",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.64,
+      "totals": {
+        "matched": 9,
+        "missing": 4
+      },
+      "section_scores": {
+        "skills": 90,
+        "experience": 95,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "Meets requirements"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Good match"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your portfolio",
+        "Highlight experience with cloud platforms",
+        "Emphasize data quality standards and data process documentation"
+      ],
+      "summary": "Strong candidate with relevant experience and skills in data analysis, visualization, and reporting",
+      "processing_time": 1.25
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "Meets requirements"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Good match"
+      }
+    },
+    "final_score": 84,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "data visualization",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "etl processes"
+      },
+      {
+        "priority": "low",
+        "skill": "data warehousing"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      }
+    ],
+    "processing_time": 1.25,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 95,
+      "skills": 90
+    },
+    "skill_ratio": 0.64,
+    "suggestions": [
+      "Consider adding R skills to your portfolio",
+      "Highlight experience with cloud platforms",
+      "Emphasize data quality standards and data process documentation"
+    ],
+    "summary": "Strong candidate with relevant experience and skills in data analysis, visualization, and reporting",
+    "totals": {
+      "matched": 9,
+      "missing": 4
+    },
+    "timestamp": "2026-05-09T20:12:01.796192"
+  },
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:15:32.203030",
+    "data": {
+      "score": 92,
+      "final_score": 85,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "data visualization",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        },
+        {
+          "skill": "advanced degree in statistics, data science, or related field",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.69,
+      "totals": {
+        "matched": 9,
+        "missing": 3
+      },
+      "section_scores": {
+        "skills": 95,
+        "experience": 90,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "Meets the required experience"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Seniority level matches the job requirements"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your repertoire",
+        "Highlight Agile/Scrum methodology experience if applicable",
+        "Pursue an advanced degree in Statistics, Data Science, or related field for career advancement"
+      ],
+      "summary": "Strong candidate with relevant experience and skills in data analysis, visualization, and reporting",
+      "processing_time": 1.81
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "Meets the required experience"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Seniority level matches the job requirements"
+      }
+    },
+    "final_score": 85,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "data visualization",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      },
+      {
+        "priority": "low",
+        "skill": "advanced degree in statistics, data science, or related field"
+      }
+    ],
+    "processing_time": 1.81,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 90,
+      "skills": 95
+    },
+    "skill_ratio": 0.69,
+    "suggestions": [
+      "Consider adding R skills to your repertoire",
+      "Highlight Agile/Scrum methodology experience if applicable",
+      "Pursue an advanced degree in Statistics, Data Science, or related field for career advancement"
+    ],
+    "summary": "Strong candidate with relevant experience and skills in data analysis, visualization, and reporting",
+    "totals": {
+      "matched": 9,
+      "missing": 3
+    },
+    "timestamp": "2026-05-09T20:15:32.257846"
+  },
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:34:18.056534",
+    "data": {
+      "score": 92,
+      "final_score": 84,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        },
+        {
+          "skill": "advanced degree in statistics, data science, or related field",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.67,
+      "totals": {
+        "matched": 8,
+        "missing": 3
+      },
+      "section_scores": {
+        "skills": 95,
+        "experience": 90,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "Meets the requirement"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Good match"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your portfolio",
+        "Highlight Agile/Scrum methodology experience in your CV",
+        "Pursue an advanced degree in Statistics, Data Science, or related field for career growth"
+      ],
+      "summary": "John Doe is a strong candidate with 2+ years of experience in data analysis, visualization, and reporting. He has a solid foundation in SQL, Power BI, Python, and Excel, and has demonstrated his ability to work collaboratively with cross-functional teams.",
+      "processing_time": 1.74
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "Meets the requirement"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Good match"
+      }
+    },
+    "final_score": 84,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      },
+      {
+        "priority": "low",
+        "skill": "advanced degree in statistics, data science, or related field"
+      }
+    ],
+    "processing_time": 1.74,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 90,
+      "skills": 95
+    },
+    "skill_ratio": 0.67,
+    "suggestions": [
+      "Consider adding R skills to your portfolio",
+      "Highlight Agile/Scrum methodology experience in your CV",
+      "Pursue an advanced degree in Statistics, Data Science, or related field for career growth"
+    ],
+    "summary": "John Doe is a strong candidate with 2+ years of experience in data analysis, visualization, and reporting. He has a solid foundation in SQL, Power BI, Python, and Excel, and has demonstrated his ability to work collaboratively with cross-functional teams.",
+    "totals": {
+      "matched": 8,
+      "missing": 3
+    },
+    "timestamp": "2026-05-09T20:34:18.205530"
+  },
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:52:39.804305",
+    "data": {
+      "score": 92,
+      "final_score": 84,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "data visualization",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        },
+        {
+          "skill": "etl processes",
+          "priority": "low"
+        },
+        {
+          "skill": "data warehousing concepts",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.64,
+      "totals": {
+        "matched": 9,
+        "missing": 4
+      },
+      "section_scores": {
+        "skills": 95,
+        "experience": 90,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "Meets the requirement"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Good match"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your skillset",
+        "Highlight experience with cloud platforms, such as Azure, AWS, or GCP",
+        "Include more details about your experience with data warehousing concepts"
+      ],
+      "summary": "The candidate has a strong background in data analysis, visualization, and reporting, with experience in Python, SQL, and Excel. They have a proven track record of translating complex data into actionable insights for business stakeholders.",
+      "processing_time": 3.1
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "Meets the requirement"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Good match"
+      }
+    },
+    "final_score": 84,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "data visualization",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      },
+      {
+        "priority": "low",
+        "skill": "etl processes"
+      },
+      {
+        "priority": "low",
+        "skill": "data warehousing concepts"
+      }
+    ],
+    "processing_time": 3.1,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 90,
+      "skills": 95
+    },
+    "skill_ratio": 0.64,
+    "suggestions": [
+      "Consider adding R skills to your skillset",
+      "Highlight experience with cloud platforms, such as Azure, AWS, or GCP",
+      "Include more details about your experience with data warehousing concepts"
+    ],
+    "summary": "The candidate has a strong background in data analysis, visualization, and reporting, with experience in Python, SQL, and Excel. They have a proven track record of translating complex data into actionable insights for business stakeholders.",
+    "totals": {
+      "matched": 9,
+      "missing": 4
+    },
+    "timestamp": "2026-05-09T20:52:39.967732"
+  },
+  {
+    "status": "success",
+    "timestamp": "2026-05-09T20:55:21.707889",
+    "data": {
+      "score": 92,
+      "final_score": 85,
+      "fit_level": "Strong Fit",
+      "fit_color": "green",
+      "matched_skills": [
+        "data analysis",
+        "data visualization",
+        "sql",
+        "power bi",
+        "python",
+        "excel",
+        "statistical analysis",
+        "communication",
+        "project management"
+      ],
+      "missing_skills": [
+        {
+          "skill": "r",
+          "priority": "low"
+        },
+        {
+          "skill": "agile/scrum methodology",
+          "priority": "low"
+        },
+        {
+          "skill": "advanced degree in statistics, data science, or related field",
+          "priority": "low"
+        }
+      ],
+      "skill_ratio": 0.69,
+      "totals": {
+        "matched": 9,
+        "missing": 3
+      },
+      "section_scores": {
+        "skills": 95,
+        "experience": 90,
+        "education": 80
+      },
+      "analysis": {
+        "experience_gap": {
+          "required_years": 2,
+          "candidate_years": 2,
+          "gap": 0,
+          "verdict": "Meets the requirement"
+        },
+        "cv_length": {
+          "word_count": 550,
+          "verdict": "Optimal length",
+          "recommendation": "No changes needed"
+        },
+        "seniority": {
+          "job_level": "Mid-level",
+          "candidate_level": "Mid-level",
+          "match": true,
+          "verdict": "Good match"
+        }
+      },
+      "suggestions": [
+        "Consider adding R skills to your portfolio",
+        "Highlight Agile/Scrum methodology experience in your CV",
+        "Pursue an advanced degree in Statistics, Data Science, or related field for career growth"
+      ],
+      "summary": "John Doe is a strong candidate with 2+ years of experience in data analysis, visualization, and reporting. He has a solid foundation in SQL, Python, and Excel, and has demonstrated his ability to work collaboratively with cross-functional teams.",
+      "processing_time": 3.83
+    }
+  },
+  {
+    "analysis": {
+      "cv_length": {
+        "recommendation": "No changes needed",
+        "verdict": "Optimal length",
+        "word_count": 550
+      },
+      "experience_gap": {
+        "candidate_years": 2,
+        "gap": 0,
+        "required_years": 2,
+        "verdict": "Meets the requirement"
+      },
+      "seniority": {
+        "candidate_level": "Mid-level",
+        "job_level": "Mid-level",
+        "match": true,
+        "verdict": "Good match"
+      }
+    },
+    "final_score": 85,
+    "fit_color": "green",
+    "fit_level": "Strong Fit",
+    "matched_skills": [
+      "data analysis",
+      "data visualization",
+      "sql",
+      "power bi",
+      "python",
+      "excel",
+      "statistical analysis",
+      "communication",
+      "project management"
+    ],
+    "missing_skills": [
+      {
+        "priority": "low",
+        "skill": "r"
+      },
+      {
+        "priority": "low",
+        "skill": "agile/scrum methodology"
+      },
+      {
+        "priority": "low",
+        "skill": "advanced degree in statistics, data science, or related field"
+      }
+    ],
+    "processing_time": 3.83,
+    "score": 92,
+    "section_scores": {
+      "education": 80,
+      "experience": 90,
+      "skills": 95
+    },
+    "skill_ratio": 0.69,
+    "suggestions": [
+      "Consider adding R skills to your portfolio",
+      "Highlight Agile/Scrum methodology experience in your CV",
+      "Pursue an advanced degree in Statistics, Data Science, or related field for career growth"
+    ],
+    "summary": "John Doe is a strong candidate with 2+ years of experience in data analysis, visualization, and reporting. He has a solid foundation in SQL, Python, and Excel, and has demonstrated his ability to work collaboratively with cross-functional teams.",
+    "totals": {
+      "matched": 9,
+      "missing": 3
+    },
+    "timestamp": "2026-05-09T20:55:21.830597"
+  }
+]
