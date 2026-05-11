@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P1 — CV Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        header span {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .intro h2 {
+            font-size: 28px;
+            color: #16a34a;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .intro p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* ── Form Card ── */
+        .form-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .form-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        label span {
+            color: #ef4444;
+        }
+
+        input, textarea, select {
+            padding: 10px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #1a1a1a;
+            background: #f9fafb;
+            outline: none;
+            transition: border 0.2s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #16a34a;
+            background: #ffffff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .hint {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        /* ── Submit Button ── */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #16a34a;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover { background: #15803d; }
+        .submit-btn:disabled { background: #86efac; cursor: not-allowed; }
+
+        /* ── Loading ── */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #d1fae5;
+            border-top: 4px solid #16a34a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Error ── */
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            padding: 14px;
+            color: #ef4444;
+            display: none;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        /* ── Results ── */
+        .results { display: none; }
+
+        /* ── Score Card ── */
+        .score-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .score-left { text-align: center; }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            border: 6px solid;
+            margin: 0 auto 10px;
+        }
+
+        .score-circle.pass {
+            border-color: #16a34a;
+            color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .score-circle.needs-work {
+            border-color: #f97316;
+            color: #f97316;
+            background: #fff7ed;
+        }
+
+        .score-circle.poor {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .verdict-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .verdict-badge.pass {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #86efac;
+        }
+
+        .verdict-badge.needs-work {
+            background: #fff7ed;
+            color: #f97316;
+            border: 1px solid #fdba74;
+        }
+
+        .verdict-badge.poor {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+        }
+
+        .score-summary {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        /* ── Mini Scores ── */
+        .mini-scores {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .mini-score-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .mini-score-box .label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .mini-score-box .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        /* ── Checklist ── */
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checklist-item {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        .checklist-item.present {
+            border-left: 4px solid #16a34a;
+        }
+
+        .checklist-item.missing {
+            border-left: 4px solid #ef4444;
+        }
+
+        .check-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ── Strengths & Weaknesses ── */
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .feedback-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feedback-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: #374151;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* ── CV Output ── */
+        .cv-output {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .cv-output h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cv-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.8;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            padding: 6px 14px;
+            background: #16a34a;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover { background: #15803d; }
+
+        /* ── Reset Button ── */
+        .reset-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 40px;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .score-card { grid-template-columns: 1fr; }
+            .mini-scores { grid-template-columns: 1fr; }
+            .checklist-grid { grid-template-columns: 1fr; }
+            .feedback-grid { grid-template-columns: 1fr; }
+        }
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .download-btn:hover { opacity: 0.85; }
+
+        .download-btn.docx {
+            background: #2563eb;
+            color: white;
+        }
+
+        .download-btn.pdf {
+            background: #dc2626;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1> JobMatch Nigeria</h1>
+    <span>P1 — CV Generator & Evaluator</span>
+</header>
+
+<div class="container">
+
+    <div class="intro">
+        <h2>Generate Your Professional CV</h2>
+        <p>Fill in your details and get a 2026-standard CV with instant quality evaluation</p>
+    </div>
+
+    <!-- Form -->
+    <div class="form-card">
+        <h3>📋 Personal Information</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Full Name <span>*</span></label>
+                <input type="text" id="name" placeholder="e.g. Aisha Abdullah">
+            </div>
+            <div class="form-group">
+                <label>Email Address <span>*</span></label>
+                <input type="email" id="email" placeholder="e.g. aishat@gmail.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number <span>*</span></label>
+                <input type="text" id="phone" placeholder="e.g. +234 810 000 0000">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="location" placeholder="e.g. Lagos, Nigeria">
+            </div>
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="text" id="dob" placeholder="e.g. 7 April 2002">
+            </div>
+            <div class="form-group">
+                <label>LinkedIn URL</label>
+                <input type="text" id="linkedin" placeholder="e.g. linkedin.com/in/adaeze">
+            </div>
+            <div class="form-group">
+                <label>Job Title Applying For <span>*</span></label>
+                <input type="text" id="job_title" placeholder="e.g. Data Analyst">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h3>💼 Professional Details</h3>
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label>Professional Summary</label>
+                <textarea id="summary" placeholder="Brief description of your professional background and goals..."></textarea>
+                <span class="hint">3-4 sentences about your experience and value</span>
+            </div>
+            <div class="form-group full-width">
+                <label>Skills <span>*</span></label>
+                <textarea id="skills" placeholder="e.g. Python, SQL, Data Analysis, Microsoft Excel, Power BI, Communication, Project Management"></textarea>
+                <span class="hint">Separate skills with commas</span>
+            </div>
+            <div class="form-group full-width">
+                <label>Work Experience <span>*</span></label>
+                <textarea id="experience" placeholder="e.g. Data Analyst at Interswitch Nigeria (2022-2024) — Analyzed customer data for 10,000+ users, built dashboards using Power BI"></textarea>
+                <span class="hint">Include company, role, dates and key achievements</span>
+            </div>
+            <div class="form-group full-width">
+                <label>Education <span>*</span></label>
+                <textarea id="education" placeholder="e.g. BSc Computer Science — University of Lagos (2018-2022), CGPA: 4.2/5.0"></textarea>
+            </div>
+            <div class="form-group full-width">
+                <label>Certifications</label>
+                <textarea id="certifications" placeholder="e.g. Google Data Analytics Certificate — Coursera (2024), AWS Cloud Practitioner (2023)"></textarea>
+            </div>
+            <div class="form-group full-width">
+                <label>Key Achievements</label>
+                <textarea id="achievements" placeholder="e.g. Increased team productivity by 40%, Won Best Employee Award 2023, Led a team of 5 developers"></textarea>
+                <span class="hint">Quantified achievements work best</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-box" id="error-box"></div>
+
+    <!-- Submit -->
+    <button class="submit-btn" id="submit-btn" onclick="generateCV()">
+        Design My Professional CV
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p style="color:#888; font-size:14px;">Generating your professional CV with AI...</p>
+    </div>
+
+    <!-- Reset -->
+    <button class="reset-btn" id="reset-btn" onclick="resetForm()">
+        🔄 Generate Another CV
+    </button>
+
+    <!-- Results -->
+    <div class="results" id="results">
+
+        <!-- Score Card -->
+        <div class="score-card">
+            <div class="score-left">
+                <div class="score-circle" id="score-circle">0</div>
+                <div class="verdict-badge" id="verdict-badge"></div>
+            </div>
+            <div>
+                <div class="score-summary" id="score-summary"></div>
+                <div class="mini-scores">
+                    <div class="mini-score-box">
+                        <div class="label">ATS Score</div>
+                        <div class="value" id="ats-score">0%</div>
+                    </div>
+                    <div class="mini-score-box">
+                        <div class="label">Grade</div>
+                        <div class="value" id="cv-grade">-</div>
+                    </div>
+                    <div class="mini-score-box">
+                        <div class="label">Market Fit</div>
+                        <div class="value" id="market-fit">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Checklist -->
+        <div class="form-card">
+            <h3>✅ CV Sections Checklist</h3>
+            <div class="checklist-grid" id="checklist"></div>
+        </div>
+
+        <!-- Strengths & Weaknesses -->
+        <div class="feedback-grid">
+            <div class="feedback-card">
+                <h3 style="color:#16a34a;">💪 Strengths</h3>
+                <div id="strengths"></div>
+            </div>
+            <div class="feedback-card">
+                <h3 style="color:#ef4444;">⚠️ Weaknesses</h3>
+                <div id="weaknesses"></div>
+            </div>
+        </div>
+
+        <!-- Improvements -->
+        <div class="form-card" style="margin-bottom:20px;">
+            <h3> Improvement Suggestions</h3>
+            <div id="improvements" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- Generated CV -->
+        <div class="cv-output">
+            <h3>📄 Your Generated CV</h3>
+            <div class="export-buttons">
+                <button class="copy-btn" onclick="copyCV()">
+                    📋 Copy to Clipboard
+                </button>
+                <button class="download-btn docx" onclick="downloadDOCX()">
+                    📝 Download DOCX
+                </button>
+                <button class="download-btn pdf" onclick="downloadPDF()">
+                    📄 Download PDF
+                </button>
+            </div>
+            <div class="cv-text" id="cv-text"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    async function generateCV() {
+        const submitBtn = document.getElementById('submit-btn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const errorBox = document.getElementById('error-box');
+
+        results.style.display = 'none';
+        errorBox.style.display = 'none';
+
+        const formData = new FormData();
+
+        formData.append('name', document.getElementById('name').value.trim());
+        formData.append('email', document.getElementById('email').value.trim());
+        formData.append('phone', document.getElementById('phone').value.trim());
+        formData.append('location', document.getElementById('location').value.trim());
+        formData.append('linkedin', document.getElementById('linkedin').value.trim());
+        formData.append('dob', document.getElementById('dob').value.trim());
+        formData.append('job_title', document.getElementById('job_title').value.trim());
+        formData.append('summary', document.getElementById('summary').value.trim());
+        formData.append('skills', document.getElementById('skills').value.trim());
+        formData.append('experience', document.getElementById('experience').value.trim());
+        formData.append('education', document.getElementById('education').value.trim());
+        formData.append('certifications', document.getElementById('certifications').value.trim());
+        formData.append('achievements', document.getElementById('achievements').value.trim());
+
+        submitBtn.disabled = true;
+        loading.style.display = 'block';
+
+        try {
+            const res = await fetch('/generate', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await res.json();
+
+            console.log("SERVER RESPONSE:", data);
+
+            if (data.status !== 'success') {
+                errorBox.textContent = '❌ ' + (data.message || 'Generation failed');
+                errorBox.style.display = 'block';
+                return;
+            }
+
+            renderResults(data);
+
+        } catch (err) {
+            console.error(err);
+
+            errorBox.textContent =
+                '❌ ' + err.message;
+
+            errorBox.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            loading.style.display = 'none';
+        }
+    }
+
+    function renderResults(data) {
+
+        const ev = data.evaluation || {};
+
+        // Score
+        const score = ev.score || 0;
+        const verdict = ev.verdict || 'Needs Work';
+
+        const circle = document.getElementById('score-circle');
+
+        circle.textContent = score;
+
+        let colorClass = 'needs-work';
+
+        if (verdict === 'Pass') {
+            colorClass = 'pass';
+        } else if (verdict === 'Poor') {
+            colorClass = 'poor';
+        }
+
+        circle.className = `score-circle ${colorClass}`;
+
+        // Badge
+        const badge = document.getElementById('verdict-badge');
+
+        badge.textContent = verdict;
+        badge.className = `verdict-badge ${colorClass}`;
+
+        // Summary
+        document.getElementById('score-summary').textContent =
+            ev.summary || 'CV generated successfully';
+
+        // Mini scores
+        document.getElementById('ats-score').textContent =
+            (ev.ats_score || 0) + '%';
+
+        document.getElementById('cv-grade').textContent =
+            ev.grade || '-';
+
+        document.getElementById('market-fit').textContent =
+            (ev.nigerian_market_fit || 0) + '%';
+
+        // Checklist
+        const checklistEl = document.getElementById('checklist');
+
+        checklistEl.innerHTML = '';
+
+        const sections = ev.sections_present || {};
+
+        const sectionNames = {
+            contact_information: 'Contact Information',
+            professional_summary: 'Professional Summary',
+            skills: 'Skills Section',
+            work_experience: 'Work Experience',
+            education: 'Education',
+            certifications: 'Certifications',
+            achievements: 'Achievements'
+        };
+
+        if (Object.keys(sections).length === 0) {
+
+            checklistEl.innerHTML = `
+                <div class="checklist-item present">
+                    <span class="check-icon">✅</span>
+                    <span>CV Generated Successfully</span>
+                </div>
+            `;
+        } else {
+
+            Object.entries(sections).forEach(([key, present]) => {
+
+                checklistEl.innerHTML += `
+                    <div class="checklist-item ${present ? 'present' : 'missing'}">
+                        <span class="check-icon">
+                            ${present ? '✅' : '❌'}
+                        </span>
+                        <span>${sectionNames[key] || key}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Strengths
+        const strengthsEl = document.getElementById('strengths');
+
+        strengthsEl.innerHTML = '';
+
+        (ev.strengths || []).forEach(s => {
+
+            strengthsEl.innerHTML += `
+                <div class="feedback-item">
+                    <span>✅</span>
+                    <span>${s}</span>
+                </div>
+            `;
+        });
+
+        // Weaknesses
+        const weaknessesEl = document.getElementById('weaknesses');
+
+        weaknessesEl.innerHTML = '';
+
+        (ev.weaknesses || []).forEach(w => {
+
+            weaknessesEl.innerHTML += `
+                <div class="feedback-item">
+                    <span>⚠️</span>
+                    <span>${w}</span>
+                </div>
+            `;
+        });
+
+        // Improvements
+        const improvementsEl = document.getElementById('improvements');
+
+        improvementsEl.innerHTML = '';
+
+        (ev.improvements || []).forEach((tip, i) => {
+
+            improvementsEl.innerHTML += `
+                <div class="feedback-item"
+                    style="margin-bottom:10px;
+                    padding:12px;
+                    background:#f9fafb;
+                    border-radius:8px;
+                    border-left:4px solid #16a34a;">
+
+                    <span style="
+                        background:#16a34a;
+                        color:white;
+                        width:22px;
+                        height:22px;
+                        border-radius:50%;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:11px;
+                        font-weight:700;
+                        flex-shrink:0;">
+                        ${i + 1}
+                    </span>
+
+                    <span>${tip}</span>
+
+                </div>
+            `;
+        });
+
+        // CV text
+        document.getElementById('cv-text').textContent =
+            data.cv_text || '';
+
+        // Show results
+        document.getElementById('results').style.display = 'block';
+
+        document.getElementById('reset-btn').style.display = 'block';
+
+        document.getElementById('results')
+            .scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyCV() {
+
+        const cvText =
+            document.getElementById('cv-text').textContent;
+
+        navigator.clipboard.writeText(cvText)
+            .then(() => {
+
+                alert('✅ CV copied to clipboard!');
+            });
+    }
+
+    function resetForm() {
+
+        document.querySelectorAll('input, textarea')
+            .forEach(el => el.value = '');
+
+        document.getElementById('results').style.display = 'none';
+
+        document.getElementById('reset-btn').style.display = 'none';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    function downloadDOCX() {
+        window.location.href = '/download/docx';
+    }
+
+    function downloadPDF() {
+        window.location.href = '/download/pdf';
+    }
+</script>
+
+</body>
+</html>
